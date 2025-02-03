@@ -70,7 +70,7 @@ select employee_id, '나의 성은 ' || last_name, first_name, salary
 from hr.employees;
 
 -- 14 사원번호, 이름 급여 부서번호를 출력할 때  리터널 날짜 2021-11-19와 숫자 35를  같이 출력하세요.,
-select employee_id, first_name, salary, department_id, '21.11.19 ' || 35
+select employee_id, first_name, salary, department_id, '2021.11.19 ', 35
 from hr.employees;
 
 --- 15. 직원번호, last_name first_name(KingSteven),급여, 직무 출력
