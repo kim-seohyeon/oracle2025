@@ -94,7 +94,7 @@ select department_id from hr.employees;
 select distinct department_id from hr.employees;
 
 -- 20.직무와 부서가 같은 직원 정보는 한번만 출력하시오.
-select distinct job_id, employee_id from hr.employees; 
+select distinct job_id, department_id from hr.employees; 
 
 ---21. 직무와 입사일이 중복되지 않게 출력하시오.
 select distinct job_id, hire_date from hr.employees; 
