@@ -11,7 +11,7 @@ from hr.employees;
 
 -- 3. 직원번호, 성, 입사일, 직무, 연봉을 출력하시오
 -- 각행에 있는 열에 수식을 사용가능
-select employee_id, last_name, hire_date, salary*12
+select employee_id, last_name, hire_date, job_id, salary*12
 from hr.employees;
 
 
@@ -54,7 +54,7 @@ from hr.employees;
 
 -- 11. 직원번호, 이메일, 이름, 입사일, 연락처, 부서번호, 급여, 커미션퍼센트, 
 -- 그리고 커미션이 포한된 연봉을 출력하시오,
-select employee_id, email, first_name, hire_date, phone_number, department_id, salary, commission_pct, salary+commission_pct
+select employee_id, email, first_name, hire_date, phone_number, department_id, salary, commission_pct, salary * (1+ commission_pct)*12
 from hr.employees;
 
 --12.  heading name에 별칭 주기 (as를 사요하는 것과 사용하지 않는것을 혼합해 볼것) 
@@ -66,11 +66,11 @@ select employee_id as eid, email, last_name lname, hire_date as hd
 from hr.employees;
 
 -- 13. employee_id,  '나의 성은 last_name' , first_name , 급여를 출력하세요.
-select employee_id, '나의 성은 ' || last_name, first_name, salary
+select employee_id, '나의 성은 last_name', first_name, salary
 from hr.employees;
 
 -- 14 사원번호, 이름 급여 부서번호를 출력할 때  리터널 날짜 2021-11-19와 숫자 35를  같이 출력하세요.,
-select employee_id, first_name, salary, department_id, '2021.11.19 ', 35
+select employee_id, first_name, salary, department_id, '2021-11-19', 35
 from hr.employees;
 
 --- 15. 직원번호, last_name first_name(KingSteven),급여, 직무 출력
@@ -78,7 +78,7 @@ select employee_id, last_name || first_name, salary, job_id
 from hr.employees;
 
 --16. 15번문제에서 성과 이름에 공백문자를 넣자.
-select employee_id, last_name ||' ' first_name, salary, job_id
+select employee_id, last_name ||' '|| first_name, salary, job_id
 from hr.employees;
 
 -- 17. 사원번호와 급여를 출력하는 사이에 아래 내용이 출력되게 하시오. 
@@ -116,7 +116,7 @@ where department_id = 90;
 -- 25. 이름이 'Nancy'인 사원의 입사일 , 직무, 급여, 커미션퍼센트를 출력하세요.
 -- 문자열 리터널인 경우에는 대소문자를 구분하여 사용해야 한다.
 select hire_date, job_id, salary, commission_pct
-from employees
+from hr.employees
 where first_name = 'Nancy';
 
 -- 26. 입사일이 06/01/03인 사원을 출력하시오.
@@ -133,32 +133,38 @@ where salary >= 3000;
 -- 28. 입사일이 06/01/03보다 늦게 입사한 직원의 사원번호 이름 급여를 출력하시오.
 select employee_id, first_name, salary
 from hr.employees
-where hire_date > '06.01.03';
+where hire_date > '06/01/03';
 
 -- 30. 급여가 3000이 아닌 사원을 모두 출력하시오.
 select *
 from hr.employees
 where salary != 3000;
+--where salary <> 3000;
+--where salary ^= 3000;
 
 -- 31. 급여가 2500에서 3500사이인 사원들 중 사원번호와 이름, 급여, 직무, 입사일을 출력
 select employee_id, first_name, salary, job_id, hire_date
 from hr.employees
 where salary >= 2500 and salary <= 3500;
+--where salary between 2500 and 3500;
 
 -- 32. 성이 King부터  Smith사이에 있는 사원들을 출력하시오.
 select * 
 from hr.employees
 where last_name >= 'King' and last_name <= 'Smith';
+--where last_name Between 'King' and 'Smith';
 
 -- 33. 입사일이 02/06/07부터 06/01/03사이에 입사한 사원들을 출력하시오.
 select *
 from hr.employees
-where hire_date >= '02.06.07' and hire_date <= '06.01.03';
+where hire_date >= '02/06/07' and hire_date <= '06/01/03';
+--where hire_date between '02/06/07' and '06/01/03';
 
 -- 34. 50, 70, 90인 부서의 사원들을 출력하세요.
 select *
 from hr.employees
-where department_id in (34, 50, 70, 90);
+where department_id in (50, 70, 90);
+--where department_id = 50 or department_id = 70, department_id = 90;
 
 -- 35. 상사가 100,101,102인 사원들을 구하시오.
 select *
@@ -168,7 +174,7 @@ where manager_id in (100, 101, 102);
 -- 36. 성이 'Hartstein', 'Vargas'인 사원들을 출력하시오.
 select *
 from hr.employees
-where last_name = 'Hartstein' or last_name = 'Vargas';
+where last_name in ('Hartstein', 'Vargas');
 
 -- 37. 사장의 직원번호는 100번이다. 사장이 직속상사인 사원은?
 select *
