@@ -1,3 +1,10 @@
+-- not 연산자
+-- is null / is not null
+-- or, and 우선순위 and가 먼저
+-- like
+-- 정렬
+-- 단일행함수: lower(), upper(), initcap(), concat()
+
 -- 100, 101, 201인 상사를 둔 직원들을 모두 출력하시오
 select * from hr.employees
 where manager_id in (100, 101, 102);
