@@ -90,43 +90,91 @@ from hr.employees
 group by job_id;
                   
 --18. 우편번호(postal_code)가 비어있는 주소(street_address)와 도시명(city)을 출력하시오.
+select street_address, city
+from hr.locations
+where postal_code is null;
 
 --19. 부서번호가 50인 사원의 직무시작과 직무종료일을 출력하시오.
+select start_date, end_date
+from hr.job_history jh join hr.departments d on jh.department_id = d.department_id
+where d.department_id = 50;
 
 --20. 나라 번호, 나라명, 지역 번호, 지역명(city)을 출력하시오
+select c.country_id, country_name
+        , location_id, city
+from hr.countries c join hr.locations l on c.country_id = l.country_id;
 
 --21. 이름이 'Daniel'부터 'Irene'인 사원들의
 -- 사원번호, 이름, 급여
 -- 부서 번호, 부서명을 출력하시오
 -- 단, 이름을 기준으로 오름차순으로 정렬하시오.
+select employee_id, first_name, salary
+        , d.department_id, department_name
+from hr.employees e join hr.departments d on e.department_id = d.department_id
+where first_name in('Daniel', 'Irene')
+order by first_name;
 
 --22. 부서별로 가장 높은 급여를 출력하시오.
 -- 단, 부서 번호를 기준으로 내림차순으로 정렬하시오.
+select max(salary)
+from hr.employees
+group by department_id
+order by department_id desc;
 
 --23. 직무에 'MA'가 들어가는 사원 중
 -- 급여가 8000이 넘는 사원의 
 -- 사원번호, 이름, 성, 직무
 -- 부서 번호, 부서명을 출력하시오.
+select employee_id, first_name, last_name, job_id
+        , d.department_id, department_name
+from hr.employees e join hr.departments d on e.department_id = d.department_id
+where salary > 8000 and job_id like '%MA%';
 
 --24. 커미션이 null인 값은 0으로 바꾸고
 --  급여에 커미션을 포함한 연봉을 구하시오
 -- 사원 번호, 이름, 급여, 커미션, 연봉 출력
 -- 단, 연봉의 별칭을 YEAR_SAL 로 표시하시오
+select employee_id, first_name, salary, nvl(commission_pct,0),salary*(1+nvl(commission_pct, 0))*12 as YEAL_SAL
+from hr.employees;
 
 --25. 부서번호가 20, 50, 80인 부서의 부서번호와 
 -- 평균 급여, 최대 급여, 최소 급여, 급여 총 합을 출력하시오
+select avg(salary), max(salary), min(salary), sum(salary)
+from hr.departments d join hr.employees e on d.department_id = e.department_id
+where d.department_id in (20, 50, 80);
 
 --26. 직무의 최소 급여가 4000인 직무명, 
 -- 해당 직무를 가진 직원의 성, 이름, 급여를 출력하시오.
+select last_name, first_name, salary
+        , j.job_id, job_title
+from hr.employees e join hr.jobs j on e.job_id = j.job_id
+where min(salary) = 4000;
 
 --28. 직원 번호가 150번부터 173번인 직원의
 -- 부서 번호, 부서명
 -- 직원 번호, 성, 이름
 -- 직무번호, 직무 내용을 출력하시오
 -- 단, 직원 번호를 기준으로 내림차순으로 정렬하시오.
+select d.department_id, department_name
+        , employee_id, last_name, first_name
+        , j.job_id, job_title
+from hr.departments d join hr.employees e on d.department_id = e.department_id
+                      join hr.jobs j on e.job_id = j.job_id
+order by employee_id desc;
 
 --29. 지역번호가 2700인 부서의 부서번호와 주소를 출력하시오
+select department_id, location_id
+from hr.departments
+where location_id = 2700;
 
 --30. 이름에 'AN'이 들어가는 직원의
 -- 직원 번호, 이름, 부서, 부서명을 출력하시오
 -- 단, 이름은 소문자, 대문자 상관없음
+select employee_id, first_name
+        , d.department_id, department_name
+from hr.employees e join hr.departments d on e.department_id = d.department_id
+where initcap(first_name) like '%AN%';
+
+
+
+
